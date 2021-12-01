@@ -8,6 +8,7 @@ export class Assignment3 extends Scene {
     constructor() {
         // constructor(): Scenes begin by populating initial values like the Shapes and Materials they'll need.
         super();
+        this.center =  Mat4.identity().times(Mat4.translation(0,0,0));
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
@@ -63,6 +64,10 @@ export class Assignment3 extends Scene {
         this.key_triggered_button("Attach to planet 4", ["Control", "4"], () => this.attached = () => this.planet_4);
         this.new_line();
         this.key_triggered_button("Attach to moon", ["Control", "m"], () => this.attached = () => this.moon);
+        this.key_triggered_button("Right", [";"], () => this.center = this.center.times(Mat4.translation(1,0,0)));
+        this.key_triggered_button("Left", ["k"], () => this.center = this.center.times(Mat4.translation(-1,0,0)));
+        this.key_triggered_button("Up", ["'"], () => this.center = this.center.times(Mat4.translation(0,1,0)));
+        this.key_triggered_button("Down", ["/"], () => this.center = this.center.times(Mat4.translation(0,-1,0)));
     }
 
     display(context, program_state) {
@@ -122,7 +127,8 @@ export class Assignment3 extends Scene {
             this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
         }
 
-        this.center =  Mat4.identity().times(Mat4.translation(0,0,0));
+        console.log(this.center);
+
         this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
         this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
         
