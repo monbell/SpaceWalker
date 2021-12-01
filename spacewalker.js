@@ -8,7 +8,7 @@ export class Assignment3 extends Scene {
     constructor() {
         // constructor(): Scenes begin by populating initial values like the Shapes and Materials they'll need.
         super();
-        this.center =  Mat4.identity().times(Mat4.translation(0,0,0));
+        this.center =  Mat4.identity().times(Mat4.translation(10,-15,0));
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
@@ -29,6 +29,16 @@ export class Assignment3 extends Scene {
                 this.randomPosition.push(Math.random()*15.0);
             }
         }
+
+        this.ring_planet_loc = Math.random()* 40 - 20;
+        this.ring_planet_speed = Math.random() * 8; 
+        this.planet_loc = Math.random()* 40 - 20 ;
+        this.planet_speed = Math.random() * 6; 
+        this.star_loc = Math.random()* 40 - 20;
+        this.star_speed = Math.random() * 6; 
+
+
+        this.planet_collision= false;
 
         // *** Materials
         this.materials = {
@@ -55,6 +65,7 @@ export class Assignment3 extends Scene {
 
     make_control_panel() {
         // Draw the scene's buttons, setup their actions and keyboard shortcuts, and monitor live measurements.
+        /*
         this.key_triggered_button("View solar system", ["Control", "0"], () => this.attached = () => null);
         this.new_line();
         this.key_triggered_button("Attach to planet 1", ["Control", "1"], () => this.attached = () => this.planet_1);
@@ -64,10 +75,17 @@ export class Assignment3 extends Scene {
         this.key_triggered_button("Attach to planet 4", ["Control", "4"], () => this.attached = () => this.planet_4);
         this.new_line();
         this.key_triggered_button("Attach to moon", ["Control", "m"], () => this.attached = () => this.moon);
-        this.key_triggered_button("Right", [";"], () => this.center = this.center.times(Mat4.translation(1,0,0)));
-        this.key_triggered_button("Left", ["k"], () => this.center = this.center.times(Mat4.translation(-1,0,0)));
-        this.key_triggered_button("Up", ["'"], () => this.center = this.center.times(Mat4.translation(0,1,0)));
-        this.key_triggered_button("Down", ["/"], () => this.center = this.center.times(Mat4.translation(0,-1,0)));
+        */
+        this.key_triggered_button("Right", ["s"], () => this.center = this.center.times(Mat4.translation(1,0,0)));
+        this.new_line();
+        this.key_triggered_button("Left", ["a"], () => this.center = this.center.times(Mat4.translation(-1,0,0)));
+        this.new_line();
+        
+        //this.key_triggered_button("Up", ["w"], () => this.center = this.center.times(Mat4.translation(0,1,0)));
+        //this.new_line();
+        //this.key_triggered_button("Down", ["s"], () => this.center = this.center.times(Mat4.translation(0,-1,0)));
+        //this.new_line();
+
     }
 
     display(context, program_state) {
@@ -76,20 +94,20 @@ export class Assignment3 extends Scene {
         if (!context.scratchpad.controls) {
             this.children.push(context.scratchpad.controls = new defs.Movement_Controls());
             // Define the global camera and projection matrices, which are stored in program_state.
-            program_state.set_camera(this.initial_camera_location);
+            program_state.set_camera(Mat4.translation(0, 0, -40));
         }
 
         program_state.projection_transform = Mat4.perspective(
             Math.PI / 4, context.width / context.height, .1, 1000);
 
+        /*
         if(this.attached && this.attached() !== null) {
             this.desired = Mat4.inverse(this.attached().times(Mat4.translation(0,0,5)));
         }
         else {
             this.desired = this.initial_camera_location;
         }
-        program_state.camera_inverse = this.desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
-
+        */
         const t = program_state.animation_time/1000, dt = program_state.animation_delta_time/1000;
         let bool
         let colorChange
@@ -127,8 +145,7 @@ export class Assignment3 extends Scene {
             this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
         }
 
-        console.log(this.center);
-
+        // console.log(this.center);
         this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
         this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
         
@@ -153,15 +170,21 @@ export class Assignment3 extends Scene {
         this.meteor_transform = Mat4.identity().times(Mat4.translation(0,5,0).times(Mat4.scale(.5,.5,.5)));
         this.shapes.meteor.draw(context, program_state, this.meteor_transform, this.materials.meteor_mat);
 
-        this.shooting_star_transform = Mat4.identity().times(Mat4.translation(3,3,0)).times(Mat4.scale(.75, 1.3, 1)).times(Mat4.rotation(Math.PI*1.25,0,0,1));//.times(Mat4.scale(1, 1.4, 1));
+        this.shooting_star_transform = Mat4.identity().times(Mat4.translation(this.star_loc,20+(-t*this.star_speed),0));//.times(Mat4.scale(1, 1.4, 1));
+        this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI*1.25,0,0,1)).times(Mat4.scale(.75, 1.3, 1));
         this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);
         this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
         this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);   
 
-        this.planet_transform = Mat4.identity().times(Mat4.scale(.75,.75,.75)).times(Mat4.translation(-3,3,0));
+        if(this.planet_collision){
+            this.planet_loc = Math.random()*5.0;
+            this.planet_collision = false;
+        }
+       
+        this.planet_transform = Mat4.identity().times(Mat4.translation(this.planet_loc,20+(-t*this.planet_speed), 0)).times(Mat4.scale(.75,.75,.75));
         this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_1_mat);
 
-        this.planet_transform = this.planet_transform.times(Mat4.translation(-5,0,0));
+        this.planet_transform = Mat4.identity().times(Mat4.translation(this.ring_planet_loc,20+(-t*this.ring_planet_speed),0));
         this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
         this.rings_transform =  this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
         this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat); // TODO: make the torus st it has space bw itself & planet_3 --> made spacing heLLA
