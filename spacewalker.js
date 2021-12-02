@@ -8,7 +8,7 @@ export class Assignment3 extends Scene {
     constructor() {
         // constructor(): Scenes begin by populating initial values like the Shapes and Materials they'll need.
         super();
-        this.center =  Mat4.identity().times(Mat4.translation(10,-15,0));
+        this.center =  Mat4.identity().times(Mat4.translation(10,-12,0));
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
@@ -22,7 +22,7 @@ export class Assignment3 extends Scene {
         };
 
         this.randomPosition = []
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 210; i++) {
             if(i % 3 == 0 || i % 5 == 0) {
                 this.randomPosition.push(-Math.random()*15.0);
             } else {
@@ -30,13 +30,23 @@ export class Assignment3 extends Scene {
             }
         }
 
-        this.ring_planet_loc = Math.random()* 40 - 20;
-        this.ring_planet_speed = Math.random() * 8; 
-        this.planet_loc = Math.random()* 40 - 20 ;
-        this.planet_speed = Math.random() * 6; 
-        this.star_loc = Math.random()* 40 - 20;
-        this.star_speed = Math.random() * 6; 
+        this.ring_planet_loc = Math.random()*40 - 20;
+        this.ring_planet_speed = Math.random()*10 + 10; 
+        this.planet_loc = Math.random()*40 - 20;
+        this.planet_speed = Math.random()*10 + 10; 
+        this.star_loc = Math.random()*40 - 20;
+        this.star_speed = Math.random()*10 + 10; 
+        this.meteor_loc = Math.random()*40 - 20;
+        this.meteor_speed = Math.random()*10 + 10; 
 
+        this.ring_planet_loc_2 = Math.random()*40 - 20;
+        this.ring_planet_speed_2 = Math.random()*10 + 10; 
+        this.planet_loc_2 = Math.random()*40 - 20;
+        this.planet_speed_2 = Math.random()*10 + 10; 
+        this.star_loc_2 = Math.random()*40 - 20;
+        this.star_speed_2 = Math.random()*10 + 10; 
+        this.meteor_loc_2 = Math.random()*40 - 20;
+        this.meteor_speed_2 = Math.random()*10 + 10; 
 
         this.planet_collision= false;
 
@@ -94,20 +104,12 @@ export class Assignment3 extends Scene {
         if (!context.scratchpad.controls) {
             this.children.push(context.scratchpad.controls = new defs.Movement_Controls());
             // Define the global camera and projection matrices, which are stored in program_state.
-            program_state.set_camera(Mat4.translation(0, 0, -40));
+            program_state.set_camera(Mat4.translation(0, 0, -35));
         }
 
         program_state.projection_transform = Mat4.perspective(
             Math.PI / 4, context.width / context.height, .1, 1000);
 
-        /*
-        if(this.attached && this.attached() !== null) {
-            this.desired = Mat4.inverse(this.attached().times(Mat4.translation(0,0,5)));
-        }
-        else {
-            this.desired = this.initial_camera_location;
-        }
-        */
         const t = program_state.animation_time/1000, dt = program_state.animation_delta_time/1000;
         let bool
         let colorChange
@@ -138,18 +140,17 @@ export class Assignment3 extends Scene {
        
         this.material_transform = Mat4.identity();
         
-        for (let i = 0; i <160; i++) {
-            this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i], this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
+        for (let i = 0; i < 200; i++) {
+            this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
             this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
             this.material_transform = this.material_transform.times(Mat4.rotation(Math.PI, 0, 0, 1)).times(Mat4.translation(0, -1, 0));
             this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
         }
 
-        // console.log(this.center);
-        this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
+        this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));//.times(Mat4.scale(2,2,2));
         this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
         
-        this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
+        this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));//.times(Mat4.scale(2,2,2));
         this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
 
         this.circle_transform = this.center.times(Mat4.translation(-3,.5,1.2)).times(Mat4.scale(.15,.15,.15));
@@ -167,27 +168,66 @@ export class Assignment3 extends Scene {
         this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
         this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
 
-        this.meteor_transform = Mat4.identity().times(Mat4.translation(0,5,0).times(Mat4.scale(.5,.5,.5)));
+        if(t%5.5 < 0.05 && t%5.5 > -0.05) {
+            this.ring_planet_loc = Math.random()*40 - 20;
+            this.ring_planet_speed = Math.random()*10 + 5; 
+            this.planet_loc = Math.random()*40 - 20;
+            this.planet_speed = Math.random()*10 + 5; 
+            this.star_loc = Math.random()*40 - 20;
+            this.star_speed = Math.random()*10 + 5; 
+            this.meteor_loc = Math.random()*40 - 20;
+            this.meteor_speed = Math.random()*10 + 5; 
+        }
+
+        if((t+2.25)%5.5 < 0.05 && (t+2.25)%5.5 > -0.05) {
+            this.ring_planet_loc_2 = Math.random()*40 - 20;
+            this.ring_planet_speed_2 = Math.random()*10 + 5; 
+            this.planet_loc_2 = Math.random()*40 - 20;
+            this.planet_speed_2 = Math.random()*10 + 5; 
+            this.star_loc_2 = Math.random()*40 - 20;
+            this.star_speed_2 = Math.random()*10 + 5; 
+            this.meteor_loc_2 = Math.random()*40 - 20;
+            this.meteor_speed_2 = Math.random()*10 + 5; 
+        }
+
+        this.meteor_transform = Mat4.identity().times(Mat4.translation(this.meteor_loc,20+(-(t%5.5)*this.meteor_speed),0)).times(Mat4.scale(.5,.5,.5));
         this.shapes.meteor.draw(context, program_state, this.meteor_transform, this.materials.meteor_mat);
 
-        this.shooting_star_transform = Mat4.identity().times(Mat4.translation(this.star_loc,20+(-t*this.star_speed),0));//.times(Mat4.scale(1, 1.4, 1));
-        this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI*1.25,0,0,1)).times(Mat4.scale(.75, 1.3, 1));
+        this.meteor_transform = Mat4.identity().times(Mat4.translation(this.meteor_loc_2,20+(-((t+2.25)%5.5)*this.meteor_speed_2),0)).times(Mat4.scale(.5,.5,.5));
+        this.shapes.meteor.draw(context, program_state, this.meteor_transform, this.materials.meteor_mat);
+
+        this.shooting_star_transform = Mat4.identity().times(Mat4.translation(this.star_loc,20+(-(t%5.5)*this.star_speed),0)).times(Mat4.rotation(Math.PI*1.25,0,0,1)).times(Mat4.scale(.75, 1.3, 1));
         this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);
         this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
-        this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);   
+        this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat); 
+        
+        this.shooting_star_transform = Mat4.identity().times(Mat4.translation(this.star_loc_2,20+(-((t+2.25)%5.5)*this.star_speed_2),0)).times(Mat4.rotation(Math.PI*1.25,0,0,1)).times(Mat4.scale(.75, 1.3, 1));
+        this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);
+        this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
+        this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);
 
         if(this.planet_collision){
             this.planet_loc = Math.random()*5.0;
             this.planet_collision = false;
         }
        
-        this.planet_transform = Mat4.identity().times(Mat4.translation(this.planet_loc,20+(-t*this.planet_speed), 0)).times(Mat4.scale(.75,.75,.75));
+        this.planet_transform = Mat4.identity().times(Mat4.translation(this.planet_loc,20+(-(t%5.5)*this.planet_speed), 0)).times(Mat4.scale(.75,.75,.75));
         this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_1_mat);
 
-        this.planet_transform = Mat4.identity().times(Mat4.translation(this.ring_planet_loc,20+(-t*this.ring_planet_speed),0));
+        this.planet_transform = Mat4.identity().times(Mat4.translation(this.ring_planet_loc_2,20+(-((t+2.25)%5.5)*this.planet_speed_2), 0)).times(Mat4.scale(.75,.75,.75));
+        this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_1_mat);
+
+        this.planet_transform = Mat4.identity().times(Mat4.translation(this.ring_planet_loc,20+(-(t%5.5)*this.ring_planet_speed),0));
         this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
-        this.rings_transform =  this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
+
+        this.rings_transform = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
         this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat); // TODO: make the torus st it has space bw itself & planet_3 --> made spacing heLLA
+        
+        this.planet_transform = Mat4.identity().times(Mat4.translation(this.ring_planet_loc_2,20+(-((t+2.25)%5.5)*this.ring_planet_speed_2),0));
+        this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
+
+        this.rings_transform = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
+        this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat);
 
     }
 }
