@@ -30,25 +30,51 @@ export class Assignment3 extends Scene {
             }
         }
 
-        this.ring_planet_loc = Math.random()*40 - 20;
+        this.positions = []
+        for (let i = 0; i < 8; i++) {
+            this.positions.push(-20+i*5)
+        }
+
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.ring_planet_loc = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.ring_planet_speed = Math.random()*10 + 10; 
-        this.planet_loc = Math.random()*40 - 20;
+        
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.planet_loc = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.planet_speed = Math.random()*10 + 10; 
-        this.star_loc = Math.random()*40 - 20;
+
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.star_loc = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.star_speed = Math.random()*10 + 10; 
-        this.meteor_loc = Math.random()*40 - 20;
+        
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.meteor_loc = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.meteor_speed = Math.random()*10 + 10; 
 
-        this.ring_planet_loc_2 = Math.random()*40 - 20;
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.ring_planet_loc_2 = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.ring_planet_speed_2 = Math.random()*10 + 10; 
-        this.planet_loc_2 = Math.random()*40 - 20;
-        this.planet_speed_2 = Math.random()*10 + 10; 
-        this.star_loc_2 = Math.random()*40 - 20;
+
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.planet_loc_2 = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
+        this.planet_speed_2 = Math.random()*10 + 10;
+
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.star_loc_2 = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.star_speed_2 = Math.random()*10 + 10; 
-        this.meteor_loc_2 = Math.random()*40 - 20;
+
+        this.rand = Math.floor(Math.random()*this.positions.length);
+        this.meteor_loc_2 = this.positions[this.rand]; // random position; remove that position
+        this.positions.splice(this.rand, 1);
         this.meteor_speed_2 = Math.random()*10 + 10; 
 
-        this.planet_collision= false;
 
         // *** Materials
         this.materials = {
@@ -176,25 +202,61 @@ export class Assignment3 extends Scene {
         this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
 
         if(t%5.5 < 0.05 && t%5.5 > -0.05) {
-            this.ring_planet_loc = Math.random()*40 - 20;
-            this.ring_planet_speed = Math.random()*10 + 5; 
-            this.planet_loc = Math.random()*40 - 20;
-            this.planet_speed = Math.random()*10 + 5; 
-            this.star_loc = Math.random()*40 - 20;
-            this.star_speed = Math.random()*10 + 5; 
-            this.meteor_loc = Math.random()*40 - 20;
-            this.meteor_speed = Math.random()*10 + 5; 
+            
+            if(this.positions.length == 0) {
+                for (let i = 0; i < 8; i++) {
+                    this.positions.push(-20+i*5)
+                }
+            } 
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.ring_planet_loc = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.ring_planet_speed = Math.random()*10 + 10; 
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.planet_loc = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.planet_speed = Math.random()*10 + 10; 
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.star_loc = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.star_speed = Math.random()*10 + 10; 
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.meteor_loc = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.meteor_speed = Math.random()*10 + 10; 
         }
 
+
         if((t+2.25)%5.5 < 0.05 && (t+2.25)%5.5 > -0.05) {
-            this.ring_planet_loc_2 = Math.random()*40 - 20;
-            this.ring_planet_speed_2 = Math.random()*10 + 5; 
-            this.planet_loc_2 = Math.random()*40 - 20;
-            this.planet_speed_2 = Math.random()*10 + 5; 
-            this.star_loc_2 = Math.random()*40 - 20;
-            this.star_speed_2 = Math.random()*10 + 5; 
-            this.meteor_loc_2 = Math.random()*40 - 20;
-            this.meteor_speed_2 = Math.random()*10 + 5; 
+            if(this.positions.length == 0) {
+                for (let i = 0; i < 8; i++) {
+                    this.positions.push(-20+i*5)
+                }
+            }
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.ring_planet_loc_2 = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.ring_planet_speed_2 = Math.random()*10 + 10; 
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.planet_loc_2 = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.planet_speed_2 = Math.random()*10 + 10;
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.star_loc_2 = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.star_speed_2 = Math.random()*10 + 10; 
+
+            this.rand = Math.floor(Math.random()*this.positions.length);
+            this.meteor_loc_2 = this.positions[this.rand]; // random position; remove that position
+            this.positions.splice(this.rand, 1);
+            this.meteor_speed_2 = Math.random()*10 + 10; 
         }
 
         this.meteor_transform = Mat4.identity().times(Mat4.translation(this.meteor_loc,20+(-(t%5.5)*this.meteor_speed),0)).times(Mat4.scale(.5,.5,.5));
@@ -226,20 +288,15 @@ export class Assignment3 extends Scene {
         if( ((this.shooting_star_transform_2[1][3] - this.center[1][3]) < 2 && (this.shooting_star_transform_2[1][3] - this.center[1][3]) > -2) && ((this.shooting_star_transform_2[0][3] - this.center[0][3]) < 2 && (this.shooting_star_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
             this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));
         }
-
-
-        // if(this.planet_collision){
-        //     this.planet_loc = Math.random()*5.0;
-        //     this.planet_collision = false;
-        // }
-       
+        
+        
         this.planet_transform = Mat4.identity().times(Mat4.translation(this.planet_loc,20+(-(t%5.5)*this.planet_speed), 0)).times(Mat4.scale(.75,.75,.75));
         this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_1_mat);
         if( ((this.planet_transform[1][3] - this.center[1][3]) < 2 && (this.planet_transform[1][3] - this.center[1][3]) > -2) && ((this.planet_transform[0][3] - this.center[0][3]) < 2 && (this.planet_transform[0][3] - this.center[0][3]) > -2)) { // collision detection
             this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));
         }
 
-        this.planet_transform_2 = Mat4.identity().times(Mat4.translation(this.ring_planet_loc_2,20+(-((t+2.25)%5.5)*this.planet_speed_2), 0)).times(Mat4.scale(.75,.75,.75));
+        this.planet_transform_2 = Mat4.identity().times(Mat4.translation(this.planet_loc_2,20+(-((t+2.25)%5.5)*this.planet_speed_2), 0)).times(Mat4.scale(.75,.75,.75));
         this.shapes.planet_1.draw(context, program_state, this.planet_transform_2, this.materials.planet_1_mat);
         if( ((this.planet_transform_2[1][3] - this.center[1][3]) < 2 && (this.planet_transform_2[1][3] - this.center[1][3]) > -2) && ((this.planet_transform_2[0][3] - this.center[0][3]) < 2 && (this.planet_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
             this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));
@@ -251,7 +308,6 @@ export class Assignment3 extends Scene {
         this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat); // TODO: make the torus st it has space bw itself & planet_3 --> made spacing heLLA
         if( ((this.rings_transform[1][3] - this.center[1][3]) < 2 && (this.rings_transform[1][3] - this.center[1][3]) > -2) && ((this.rings_transform[0][3] - this.center[0][3]) < 2 && (this.rings_transform[0][3] - this.center[0][3]) > -2
         )) { // collision detection
-            console.log("HELLO")
             this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));
         }
 
@@ -260,7 +316,6 @@ export class Assignment3 extends Scene {
         this.rings_transform_2 = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
         this.shapes.rings.draw(context, program_state, this.rings_transform_2, this.materials.rings_mat);
         if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 2 && (this.rings_transform_2[1][3] - this.center[1][3]) > -2) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 2 && (this.rings_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
-            console.log("HELLO SIR")
             this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));
         }
     }
