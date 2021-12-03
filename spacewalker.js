@@ -153,8 +153,18 @@ export class Assignment3 extends Scene {
             program_state.projection_transform = Mat4.perspective(
                 Math.PI / 4, context.width / context.height, .1, 1000);
                 
+                
             if(this.attached && this.attached() !== null) {
-                    program_state.set_camera(this.center.times(Mat4.translation(-35,20,-20)));
+                    // program_state.set_camera(this.center.times(Mat4.translation(-35,20,-20)));
+
+                    // if (this.attached)
+                    // {
+                        // var desired = this.attached()
+                        var desired = this.center.times(Mat4.translation(-35,20,-20))
+            //             console.log(desired)
+                        program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
+                    // }
+
             }
             else {
                     program_state.set_camera(Mat4.translation(0, 0, -35));
