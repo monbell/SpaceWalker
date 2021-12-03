@@ -598,7 +598,8 @@ export class Assignment3 extends Scene {
                 }
             }
             else {
-                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));                
+                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));      
+                var heart_base_transform = Mat4.identity();          
                 this.heart_transform = heart_base_transform.times(Mat4.translation(19.9,-5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
                 this.heart_transform = heart_base_transform.times(Mat4.translation(18.1,-5,0));
