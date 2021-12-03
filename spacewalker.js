@@ -21,7 +21,8 @@ export class Assignment3 extends Scene {
             meteor: new defs.Subdivision_Sphere(2),
             planet_1: new defs.Subdivision_Sphere(4),
             rings: new defs.Torus(50, 50),
-            s1: new defs.Cube(4,4)
+            s1: new defs.Cube(4,4),
+            navarre: new defs.Subdivision_Sphere(3),
         };
 
         this.randomPosition = []
@@ -97,6 +98,10 @@ export class Assignment3 extends Scene {
                 {ambient: .5, diffusivity: 1, color: hex_color("#24877c")}),
             rings_mat: new Material(new Gouraud_Shader(),
                 {ambient: .5, diffusivity: .6, color: hex_color("#D4AF37")}),
+            n_mat_Gouraud: new Material(new Gouraud_Shader(),
+                {ambient:1, diffusivity:1, color:hex_color("#333399")}),
+            n_mat_Phong: new Material(new defs.Phong_Shader(),
+                {ambient:1, diffusivity:1, color:hex_color("#333399")}),
         }
 
         this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
@@ -141,7 +146,7 @@ export class Assignment3 extends Scene {
                 Math.PI / 4, context.width / context.height, .1, 1000);
                 
             if(this.attached && this.attached() !== null) {
-                    program_state.set_camera(this.center.times(Mat4.translation(-50,20,-20)));
+                    program_state.set_camera(this.center.times(Mat4.translation(-35,20,-20)));
             }
             else {
                     program_state.set_camera(Mat4.translation(0, 0, -35));
@@ -382,8 +387,18 @@ export class Assignment3 extends Scene {
 
             this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
             this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
+            
+            this.planet_n = Mat4.identity().times(Mat4.translation(23,-12,0)).times(Mat4.scale(3,3,3));
+            //this.shapes.navarre.draw(context, program_state, this.planet_n, this.materials.n_mat_Phong);
+            
+            if(((t%10)%2).toString()[0] == '0'){
+                this.shapes.navarre.draw(context,program_state,this.planet_n,this.materials.n_mat_Phong);
+            } else {
+                this.shapes.navarre.draw(context, program_state, this.planet_n, this.materials.n_mat_Gouraud);
+            }
+            
 
-            if(this.center[0][3] == 27) {
+            if(this.center[0][3] == 15) {
                 this.end = true;
             }
 
