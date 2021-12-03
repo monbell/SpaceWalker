@@ -8,7 +8,7 @@ export class Assignment3 extends Scene {
     constructor() {
         // constructor(): Scenes begin by populating initial values like the Shapes and Materials they'll need.
         super();
-        this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
+        this.center =  Mat4.identity().times(Mat4.translation(-15,-9,0));
         this.startScreen = true;
         this.collided = false;
         this.startScreenUFODirection = "R";
@@ -29,11 +29,11 @@ export class Assignment3 extends Scene {
         };
 
         this.randomPosition = []
-        for (let i = 0; i < 210; i++) {
+        for (let i = 0; i < 400; i++) {
             if(i % 3 == 0 || i % 5 == 0) {
-                this.randomPosition.push(-Math.random()*15.0);
+                this.randomPosition.push(-Math.random()*20.0);
             } else {
-                this.randomPosition.push(Math.random()*15.0);
+                this.randomPosition.push(Math.random()*20.0);
             }
         }
 
@@ -125,9 +125,19 @@ export class Assignment3 extends Scene {
         this.new_line();
         this.key_triggered_button("Attach to moon", ["Control", "m"], () => this.attached = () => this.moon);
         */
-        this.key_triggered_button("Right", ["s"], () => this.center = this.center.times(Mat4.translation(1,0,0)));
+        this.key_triggered_button("Right", ["s"], () => {
+            if (this.end==false && this.startScreen==false)
+            {
+                this.center = this.center.times(Mat4.translation(1,0,0))
+            }
+        });
         this.new_line();
-        this.key_triggered_button("Left", ["a"], () => this.center = this.center.times(Mat4.translation(-1,0,0)));
+        this.key_triggered_button("Left", ["a"], () => {
+            if (this.end==false && this.startScreen==false)
+            {
+                this.center = this.center.times(Mat4.translation(-1,0,0))
+            }
+        });
         this.new_line();
         this.key_triggered_button("Start", ["x"], () => { 
             this.startScreen = false;         
@@ -155,8 +165,8 @@ export class Assignment3 extends Scene {
                 
                 
             if(this.attached && this.attached() !== null) {
-                        var desired = this.center.times(Mat4.translation(-35,20,-20))
-                        program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
+                var desired = this.center.times(Mat4.translation(-35,20,-20))
+                program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
                     
             }
             else {
@@ -195,13 +205,25 @@ export class Assignment3 extends Scene {
 
             var letter_change = Math.floor(t*3) % 12;
 
+            for (let i = 0; i < 400; i++) {
+                this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
+                this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
+                this.material_transform = this.material_transform.times(Mat4.rotation(Math.PI, 0, 0, 1)).times(Mat4.translation(0, -1, 0));
+                this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
+            }
+
         if (this.startScreen){
+
+
+            var linePosition = Mat4.identity().times(Mat4.translation(0,-2.5,0))
+            this.material_transform = linePosition.times(Mat4.scale(18, 0.25, 0));
+            this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: hex_color("86f0b0")}));
 
             var letterColor = color(0,0,0,0);
             var defaultLetterColor = hex_color("0fd9aa");
             if (letter_change == 0){ letterColor = color(1,1,1,1)}
             else {letterColor = defaultLetterColor}
-            var sPosition = Mat4.identity().times(Mat4.translation(-16,0,0))
+            var sPosition = Mat4.identity().times(Mat4.translation(-16,1,0))
             this.material_transform = sPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             this.material_transform = sPosition.times(Mat4.scale(1, 0.25, 0)).times(Mat4.translation(1,3,0));
@@ -370,13 +392,6 @@ export class Assignment3 extends Scene {
             this.material_transform = sPosition.times(Mat4.translation(1.75,-1.5,0).times(Mat4.scale(0.25, 1, 0)));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
 
-            for (let i = 0; i < 200; i++) {
-                this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
-                this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
-                this.material_transform = this.material_transform.times(Mat4.rotation(Math.PI, 0, 0, 1)).times(Mat4.translation(0, -1, 0));
-                this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
-            }
-
             if(this.center[0][3] == 15) {
                 this.startScreenUFODirection = "L"
             }
@@ -420,18 +435,11 @@ export class Assignment3 extends Scene {
         else
         {
 
-            for (let i = 0; i < 200; i++) {
-                this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
-                this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
-                this.material_transform = this.material_transform.times(Mat4.rotation(Math.PI, 0, 0, 1)).times(Mat4.translation(0, -1, 0));
-                this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
-            }
-
             if (this.collided == true)
             {
 
-                var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
-                // var explosionCenter = this.center;
+                // var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
+                var explosionCenter = this.center;
 
                 var numberTris = 40;
                 for (let i = 0; i < numberTris; i++) {
