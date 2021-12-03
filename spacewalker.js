@@ -492,7 +492,7 @@ export class Assignment3 extends Scene {
             
             this.diff = this.center[1][3] - this.n_loc;
             //console.log(this.diff);
-            if(this.center[0][3] > 15 && Math.abs(this.diff) < 5) {
+            if(this.center[0][3] > 15 && Math.abs(this.diff) < 6) {
                 this.end = true;
             }
 
