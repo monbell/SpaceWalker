@@ -598,13 +598,12 @@ export class Assignment3 extends Scene {
                 }
             }
             else {
-                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));
-
-                this.heart_transform = Mat4.identity().times(Mat4.translation(19.9,-5,0));
+                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));                
+                this.heart_transform = heart_base_transform.times(Mat4.translation(19.9,-5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
-                this.heart_transform = Mat4.identity().times(Mat4.translation(18.1,-5,0));
+                this.heart_transform = heart_base_transform.times(Mat4.translation(18.1,-5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
-                this.heart_transform = Mat4.identity().times(Mat4.translation(19,-7.25,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
+                this.heart_transform = heart_base_transform.times(Mat4.translation(19,-7.25,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
                 this.shapes.triangle.draw(context, program_state, this.heart_transform, this.materials.heart_mat)
             }
 
