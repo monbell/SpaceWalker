@@ -125,7 +125,7 @@ export class Assignment3 extends Scene {
         this.new_line();
         this.key_triggered_button("Attach to moon", ["Control", "m"], () => this.attached = () => this.moon);
         */
-        this.key_triggered_button("Right", ["s"], () => {
+        this.key_triggered_button("Right", ["d"], () => {
             if (this.end==false && this.startScreen==false)
             {
                 this.center = this.center.times(Mat4.translation(1,0,0))
@@ -144,10 +144,20 @@ export class Assignment3 extends Scene {
             this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
         });
         
-        //this.key_triggered_button("Up", ["w"], () => this.center = this.center.times(Mat4.translation(0,1,0)));
-        //this.new_line();
-        //this.key_triggered_button("Down", ["s"], () => this.center = this.center.times(Mat4.translation(0,-1,0)));
-        //this.new_line();
+        this.key_triggered_button("Up", ["w"], () => {
+            if (this.end==false && this.startScreen==false)
+            {
+                this.center = this.center.times(Mat4.translation(0,1,0))
+            }
+        });
+        this.new_line();
+        this.key_triggered_button("Down", ["s"], () => {
+            if (this.end==false && this.startScreen==false)
+            {
+                this.center = this.center.times(Mat4.translation(0,-1,0))
+            }
+        });
+        this.new_line();
 
     }
 
@@ -206,7 +216,7 @@ export class Assignment3 extends Scene {
             var letter_change = Math.floor(t*3) % 12;
 
             for (let i = 0; i < 400; i++) {
-                this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
+                this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, 0)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
                 this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
                 this.material_transform = this.material_transform.times(Mat4.rotation(Math.PI, 0, 0, 1)).times(Mat4.translation(0, -1, 0));
                 this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
@@ -438,8 +448,8 @@ export class Assignment3 extends Scene {
             if (this.collided == true)
             {
 
-                // var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
-                var explosionCenter = this.center;
+                var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
+                // var explosionCenter = this.center;
 
                 var numberTris = 40;
                 for (let i = 0; i < numberTris; i++) {
