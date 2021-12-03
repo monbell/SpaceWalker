@@ -155,16 +155,9 @@ export class Assignment3 extends Scene {
                 
                 
             if(this.attached && this.attached() !== null) {
-                    // program_state.set_camera(this.center.times(Mat4.translation(-35,20,-20)));
-
-                    // if (this.attached)
-                    // {
-                        // var desired = this.attached()
                         var desired = this.center.times(Mat4.translation(-35,20,-20))
-            //             console.log(desired)
                         program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
-                    // }
-
+                    
             }
             else {
                     program_state.set_camera(Mat4.translation(0, 0, -35));
@@ -200,29 +193,14 @@ export class Assignment3 extends Scene {
 
             this.material_transform = Mat4.identity();
 
-
             var letter_change = Math.floor(t*3) % 12;
 
         if (this.startScreen){
 
-            // var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
-            // var numberTris = 40;
-            // for (let i = 0; i < numberTris; i++) {
-            //     explosionCenter = explosionCenter.times(Mat4.rotation(i * Math.PI/numberTris, 0, 0, 1))
-            //     this.material_transform = explosionCenter.times(Mat4.scale(0.5, 0.5, 0.5));
-            //     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color:  hex_color("#ffffff")}));
-            //     this.material_transform = explosionCenter.times(Mat4.scale(1, 0.5, 0.5));
-            //     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#eded2d")}));
-            //     this.material_transform = explosionCenter.times(Mat4.scale(1.5, 0.5, 0.5));
-            //     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#ffab24")}));
-            //     this.material_transform = explosionCenter.times(Mat4.scale(2, 0.5, 0.5));
-            //     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#d6220b")}));
-            
-            // }
-
             var letterColor = color(0,0,0,0);
+            var defaultLetterColor = hex_color("0fd9aa");
             if (letter_change == 0){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var sPosition = Mat4.identity().times(Mat4.translation(-16,0,0))
             this.material_transform = sPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -236,7 +214,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             
             if (letter_change == 1){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var pPosition = sPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = pPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -250,7 +228,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
 
             if (letter_change == 2){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var aPosition = pPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = aPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -266,7 +244,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
 
             if (letter_change == 3){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var cPosition = aPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = cPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -278,7 +256,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
 
             if (letter_change == 4){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var ePosition = cPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = ePosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -292,7 +270,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
 
             if (letter_change == 5){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var wPosition = ePosition.times(Mat4.translation(5.5,0,0))
             this.material_transform = wPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -308,7 +286,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             
             if (letter_change == 6){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             aPosition = wPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = aPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -324,7 +302,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
 
             if (letter_change == 7){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var lPosition = aPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = lPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -334,7 +312,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             
             if (letter_change == 8){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var kPosition = lPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = kPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -348,7 +326,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             
             if (letter_change == 9){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             ePosition = kPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = ePosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -362,7 +340,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             
             if (letter_change == 10){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             var rPosition = ePosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = rPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -379,7 +357,7 @@ export class Assignment3 extends Scene {
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
             
             if (letter_change == 11){ letterColor = color(1,1,1,1)}
-            else {letterColor = color(.5, .5, 1, 1)}
+            else {letterColor = defaultLetterColor}
             sPosition = rPosition.times(Mat4.translation(2.5,0,0))
             this.material_transform = sPosition.times(Mat4.scale(0.25, 1, 0));
             this.shapes.s1.draw(context, program_state, this.material_transform, this.materials.ufo_mat.override({color: letterColor}));
@@ -438,12 +416,9 @@ export class Assignment3 extends Scene {
             this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
 
-            
-
         }
         else
         {
-
 
             for (let i = 0; i < 200; i++) {
                 this.material_transform = Mat4.identity().times(Mat4.translation(this.randomPosition[i]*2.0, this.randomPosition[i+2], 0)).times(Mat4.scale(.15, .15, .5)).times(Mat4.rotation(Math.PI*1.65, 0, 0, 1));
@@ -455,17 +430,12 @@ export class Assignment3 extends Scene {
             if (this.collided == true)
             {
 
-
+                var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
                 // var explosionCenter = this.center;
-                // var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
-                // var explosionCenter = this.center.times(Mat4.translation(1,1,0));
-                var explosionCenter = this.center;
-
-
 
                 var numberTris = 40;
                 for (let i = 0; i < numberTris; i++) {
-                    explosionCenter = explosionCenter.times(Mat4.rotation(i * Math.PI/numberTris, 0, 0, 1)).times(Mat4.scale(3,3,3))
+                    explosionCenter = explosionCenter.times(Mat4.rotation(i * Math.PI/numberTris, 0, 0, 1))
                     this.material_transform = explosionCenter.times(Mat4.scale(0.5, 0.5, 0.5));
                     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color:  hex_color("#ffffff")}));
                     this.material_transform = explosionCenter.times(Mat4.scale(1, 0.5, 0.5));
