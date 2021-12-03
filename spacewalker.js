@@ -610,7 +610,7 @@ export class Assignment3 extends Scene {
 
             if (this.collided == true)
             {
-                var explosionCenter = this.center.times(Mat4.translation(2, 3, 2));
+                var explosionCenter = this.center.times(Mat4.translation(0, 1, 2));
 
                 var numberTris = 40;
                 for (let i = 0; i < numberTris; i++) {
