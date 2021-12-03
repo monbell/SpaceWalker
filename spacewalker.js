@@ -12,6 +12,10 @@ export class Assignment3 extends Scene {
         this.startScreen = true;
         this.collided = false;
         this.startScreenUFODirection = "R";
+        this.defaultCamera = Mat4.translation(0, 0, -35);
+        this.moveInitialUFO = true;
+        this.shiftCameraFast = false;
+
 
         this.end = false
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
@@ -114,17 +118,24 @@ export class Assignment3 extends Scene {
 
     make_control_panel() {
         // Draw the scene's buttons, setup their actions and keyboard shortcuts, and monitor live measurements.
-        /*
-        this.key_triggered_button("View solar system", ["Control", "0"], () => this.attached = () => null);
+        this.key_triggered_button("Start Game", ["x"], () => { 
+            if (this.startScreen == true)
+            {
+                setTimeout(() => {  
+                    this.startScreen = false;
+                    this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
+                    this.shiftCameraFast = true;
+                    this.attached(Mat4.inverse(this.center).times(Mat4.translation(0,0,-3)));
+                    this.shiftCameraFast = false;
+                    this.attached = () => this.defaultCamera;
+
+                }, 500);
+                this.moveInitialUFO = false;
+                this.attached = () => Mat4.inverse(this.center).times(Mat4.translation(0,0,-3));
+            }
+
+        });
         this.new_line();
-        this.key_triggered_button("Attach to planet 1", ["Control", "1"], () => this.attached = () => this.planet_1);
-        this.key_triggered_button("Attach to planet 2", ["Control", "2"], () => this.attached = () => this.planet_2);
-        this.new_line();
-        this.key_triggered_button("Attach to planet 3", ["Control", "3"], () => this.attached = () => this.planet_3);
-        this.key_triggered_button("Attach to planet 4", ["Control", "4"], () => this.attached = () => this.planet_4);
-        this.new_line();
-        this.key_triggered_button("Attach to moon", ["Control", "m"], () => this.attached = () => this.moon);
-        */
         this.key_triggered_button("Right", ["d"], () => {
             if (this.end==false && this.startScreen==false)
             {
@@ -139,11 +150,6 @@ export class Assignment3 extends Scene {
             }
         });
         this.new_line();
-        this.key_triggered_button("Start", ["x"], () => { 
-            this.startScreen = false;         
-            this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
-        });
-        
         this.key_triggered_button("Up", ["w"], () => {
             if (this.end==false && this.startScreen==false)
             {
@@ -158,6 +164,7 @@ export class Assignment3 extends Scene {
             }
         });
         this.new_line();
+
 
     }
 
@@ -175,12 +182,31 @@ export class Assignment3 extends Scene {
                 
                 
             if(this.attached && this.attached() !== null) {
-                var desired = this.center.times(Mat4.translation(-35,20,-20))
-                program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
+                // var desired = this.center.times(Mat4.translation(-35,20,-20))
+                var desired = this.attached()
+                if (this.shiftCameraFast == true)
+                {
+                    program_state.camera_inverse = desired
+                }
+                else{
+                // console.log(desired)
+                // if (this.attached == this.defaultCamera)
+                // {
+                //     desired = this.defaultCamera;
+                // }
+                    program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.3))
+                }
                     
             }
             else {
                     program_state.set_camera(Mat4.translation(0, 0, -35));
+            }
+            if(this.attachedFast && this.attachedFast() !== null)
+            {
+                var desired = this.attachedFast()
+                program_state.camera_inverse = desired;
+                // program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
+
             }
 
             const t = program_state.animation_time/1000, dt = program_state.animation_delta_time/1000;
@@ -408,14 +434,16 @@ export class Assignment3 extends Scene {
             if(this.center[0][3] == -15) {
                 this.startScreenUFODirection = "R"
             }
-
-            if (this.startScreenUFODirection == 'L')
+            if (this.moveInitialUFO == true)
             {
-                this.center = this.center.times(Mat4.translation(-0.25,0,0));
-            }
-            else{
-                this.center = this.center.times(Mat4.translation(0.25,0,0));
+                if (this.startScreenUFODirection == 'L')
+                {
+                    this.center = this.center.times(Mat4.translation(-0.25,0,0));
+                }
+                else{
+                    this.center = this.center.times(Mat4.translation(0.25,0,0));
 
+                }
             }
             this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
             this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
@@ -648,7 +676,8 @@ export class Assignment3 extends Scene {
 
             }
             else {
-                this.attached = () => this.ufo_transform;
+                // this.attached = () => this.ufo_transform;
+                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));
             }
         }
     }
