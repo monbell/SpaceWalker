@@ -11,6 +11,7 @@ export class Assignment3 extends Scene {
         this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
         this.startScreen = true;
         this.collided = false;
+        this.startScreenUFODirection = "R";
 
         this.end = false
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
@@ -128,7 +129,10 @@ export class Assignment3 extends Scene {
         this.new_line();
         this.key_triggered_button("Left", ["a"], () => this.center = this.center.times(Mat4.translation(-1,0,0)));
         this.new_line();
-        this.key_triggered_button("Start", ["x"], () => this.startScreen = false);
+        this.key_triggered_button("Start", ["x"], () => { 
+            this.startScreen = false;         
+            this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
+        });
         
         //this.key_triggered_button("Up", ["w"], () => this.center = this.center.times(Mat4.translation(0,1,0)));
         //this.new_line();
@@ -384,6 +388,45 @@ export class Assignment3 extends Scene {
                 this.material_transform = this.material_transform.times(Mat4.rotation(Math.PI, 0, 0, 1)).times(Mat4.translation(0, -1, 0));
                 this.shapes.triangle.draw(context, program_state, this.material_transform, this.materials.background_mat.override({color: colorChange}));
             }
+
+            if(this.center[0][3] == 15) {
+                this.startScreenUFODirection = "L"
+            }
+            if(this.center[0][3] == -15) {
+                this.startScreenUFODirection = "R"
+            }
+
+            if (this.startScreenUFODirection == 'L')
+            {
+                this.center = this.center.times(Mat4.translation(-0.25,0,0));
+            }
+            else{
+                this.center = this.center.times(Mat4.translation(0.25,0,0));
+
+            }
+            this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
+            this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
+
+            this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
+            this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
+
+            this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
+            this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
+
+            this.circle_transform = this.center.times(Mat4.translation(-3,.5,1.2)).times(Mat4.scale(.15,.15,.15));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_transform.times(Mat4.translation(7,-1.5,1.75));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.75,1.75));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.25,.5));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_transform.times(Mat4.translation(7,.75,-.25));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-1));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
 
             
 
