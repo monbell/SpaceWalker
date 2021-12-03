@@ -108,9 +108,9 @@ export class Assignment3 extends Scene {
             explosion_mat: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: 1, color: hex_color("#D4AF37")}),
             n_mat_Gouraud: new Material(new Gouraud_Shader(),
-                {ambient:1, diffusivity:1, color:hex_color("#333399")}),
+                {ambient:.5, diffusivity:1, color:hex_color("#05e632")}),
             n_mat_Phong: new Material(new defs.Phong_Shader(),
-                {ambient:1, diffusivity:1, color:hex_color("#333399")}),
+                {ambient:.5, diffusivity:1, color:hex_color("#05e632")}),
             heart_mat: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: 1, color: hex_color("#FF0000")}),
         }
