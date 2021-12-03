@@ -15,9 +15,8 @@ export class Assignment3 extends Scene {
         this.defaultCamera = Mat4.translation(0, 0, -35);
         this.moveInitialUFO = true;
         this.shiftCameraFast = false;
-
-
         this.end = false
+
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
             ufo_top: new defs.Subdivision_Sphere(4),
@@ -141,33 +140,51 @@ export class Assignment3 extends Scene {
         });
         this.new_line();
         this.key_triggered_button("Right", ["d"], () => {
-            if (this.end==false && this.startScreen==false)
+            if (this.end==false && this.startScreen==false && this.collided == false)
             {
                 this.center = this.center.times(Mat4.translation(1,0,0))
             }
         });
         this.new_line();
         this.key_triggered_button("Left", ["a"], () => {
-            if (this.end==false && this.startScreen==false)
+            if (this.end==false && this.startScreen==false && this.collided == false)
             {
                 this.center = this.center.times(Mat4.translation(-1,0,0))
             }
         });
         this.new_line();
         this.key_triggered_button("Up", ["w"], () => {
-            if (this.end==false && this.startScreen==false)
+            if (this.end==false && this.startScreen==false && this.collided == false)
             {
                 this.center = this.center.times(Mat4.translation(0,1,0))
             }
         });
         this.new_line();
         this.key_triggered_button("Down", ["s"], () => {
-            if (this.end==false && this.startScreen==false)
+            if (this.end==false && this.startScreen==false && this.collided == false)
             {
                 this.center = this.center.times(Mat4.translation(0,-1,0))
             }
         });
         this.new_line();
+        this.key_triggered_button("Restart", ["r"], () => {
+            if (this.startScreen==false)
+            {
+                this.center =  Mat4.identity().times(Mat4.translation(-15,-9,0));
+                this.startScreen = true;
+                this.collided = false;
+                this.startScreenUFODirection = "R";
+                this.defaultCamera = Mat4.translation(0, 0, -35);
+                this.moveInitialUFO = true;
+                this.shiftCameraFast = false;
+                this.end = false;
+                this.attached = () => this.defaultCamera;
+
+            }
+        });
+
+
+
 
 
     }
@@ -601,7 +618,7 @@ export class Assignment3 extends Scene {
                 }
             }
             else {
-                this.y = (this.center[1][3] + this.n_loc ) / 2.0;
+                this.y = (this.center[1][3] + this.n_loc + this.n_loc + 4) / 3.0;
                 console.log(this.center[0][3])
                 this.attached = () => Mat4.identity().times(Mat4.translation(-20,-this.y,-25));
                 
@@ -620,13 +637,13 @@ export class Assignment3 extends Scene {
                 var numberTris = 40;
                 for (let i = 0; i < numberTris; i++) {
                     explosionCenter = explosionCenter.times(Mat4.rotation(i * Math.PI/numberTris, 0, 0, 1))
-                    this.material_transform = explosionCenter.times(Mat4.scale(0.5, 0.5, 0.5));
+                    this.material_transform = explosionCenter.times(Mat4.scale(0.75, 0.5, 0.5));
                     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color:  hex_color("#eded2d")}));
-                    this.material_transform = explosionCenter.times(Mat4.scale(1, 0.5, 0.5));
+                    this.material_transform = explosionCenter.times(Mat4.scale(1.5, 0.5, 0.5));
                     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#eded2d")}));
-                    this.material_transform = explosionCenter.times(Mat4.scale(1.5, 0.5,0.5));
+                    this.material_transform = explosionCenter.times(Mat4.scale(2.25, 0.5,0.5));
                     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#ffab24")}));
-                    this.material_transform = explosionCenter.times(Mat4.scale(2, 0.5, 0.5));
+                    this.material_transform = explosionCenter.times(Mat4.scale(3, 0.5, 0.5));
                     this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#d6220b")}));
                 
                 }
@@ -636,9 +653,9 @@ export class Assignment3 extends Scene {
                     return new Promise(resolve => setTimeout(resolve, ms));
                 }
                     
-                sleep(50).then(() => {                      
-                    this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));   
-                    this.collided = false;        
+                sleep(400).then(() => {
+                    this.collided = false;                              
+                    this.center = Mat4.identity().times(Mat4.translation(-25,this.ufo_loc,0));   
                 });
             }
             else
