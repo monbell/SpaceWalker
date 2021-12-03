@@ -121,6 +121,8 @@ export class Assignment3 extends Scene {
 
     make_control_panel() {
         // Draw the scene's buttons, setup their actions and keyboard shortcuts, and monitor live measurements.
+        const start_control = this.control_panel.appendChild(document.createElement("span"));
+        start_control.style.margin = "42px";
         this.key_triggered_button("Start Game", ["x"], () => { 
             if (this.startScreen == true)
             {
@@ -139,20 +141,9 @@ export class Assignment3 extends Scene {
 
         });
         this.new_line();
-        this.key_triggered_button("Right", ["d"], () => {
-            if (this.end==false && this.startScreen==false && this.collided == false)
-            {
-                this.center = this.center.times(Mat4.translation(1,0,0))
-            }
-        });
         this.new_line();
-        this.key_triggered_button("Left", ["a"], () => {
-            if (this.end==false && this.startScreen==false && this.collided == false)
-            {
-                this.center = this.center.times(Mat4.translation(-1,0,0))
-            }
-        });
-        this.new_line();
+        const up_control = this.control_panel.appendChild(document.createElement("span"));
+        up_control.style.margin = "58px";
         this.key_triggered_button("Up", ["w"], () => {
             if (this.end==false && this.startScreen==false && this.collided == false)
             {
@@ -160,6 +151,25 @@ export class Assignment3 extends Scene {
             }
         });
         this.new_line();
+        const left_control = this.control_panel.appendChild(document.createElement("span"));
+        left_control.style.margin = "20px";
+        this.key_triggered_button("Left", ["a"], () => {
+            if (this.end==false && this.startScreen==false && this.collided == false)
+            {
+                this.center = this.center.times(Mat4.translation(-1,0,0))
+            }
+        });
+        const right_control = this.control_panel.appendChild(document.createElement("span"));
+        right_control.style.margin = "30px";
+        this.key_triggered_button("Right", ["d"], () => {
+            if (this.end==false && this.startScreen==false && this.collided == false)
+            {
+                this.center = this.center.times(Mat4.translation(1,0,0))
+            }
+        });
+        this.new_line();
+        const down_control = this.control_panel.appendChild(document.createElement("span"));
+        down_control.style.margin = "54px";
         this.key_triggered_button("Down", ["s"], () => {
             if (this.end==false && this.startScreen==false && this.collided == false)
             {
@@ -167,6 +177,9 @@ export class Assignment3 extends Scene {
             }
         });
         this.new_line();
+        this.new_line();
+        const restart_control = this.control_panel.appendChild(document.createElement("span"));
+        restart_control.style.margin = "48px";
         this.key_triggered_button("Restart", ["r"], () => {
             if (this.startScreen==false)
             {
