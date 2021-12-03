@@ -584,7 +584,7 @@ export class Assignment3 extends Scene {
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
                 this.rings_transform = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
                 this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat); // TODO: make the torus st it has space bw itself & planet_3 --> made spacing heLLA
-                if( ((this.rings_transform[1][3] - this.center[1][3]) < 4.5 && (this.rings_transform[1][3] - this.center[1][3]) > -4.5) && ((this.rings_transform[0][3] - this.center[0][3]) < 4.5 && (this.rings_transform[0][3] - this.center[0][3]) > -4.5
+                if( ((this.rings_transform[1][3] - this.center[1][3]) < 6 && (this.rings_transform[1][3] - this.center[1][3]) > -6) && ((this.rings_transform[0][3] - this.center[0][3]) < 6 && (this.rings_transform[0][3] - this.center[0][3]) > -6
                 )) { // collision detection
                     this.collided = true;
                 }
@@ -593,7 +593,7 @@ export class Assignment3 extends Scene {
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
                 this.rings_transform_2 = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
                 this.shapes.rings.draw(context, program_state, this.rings_transform_2, this.materials.rings_mat);
-                if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 4.5 && (this.rings_transform_2[1][3] - this.center[1][3]) > -4.5) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 4.5 && (this.rings_transform_2[0][3] - this.center[0][3]) > -4.5)) { // collision detection
+                if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 6 && (this.rings_transform_2[1][3] - this.center[1][3]) > -6) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 6 && (this.rings_transform_2[0][3] - this.center[0][3]) > -6)) { // collision detection
                     this.collided = true;
                 }
             }
