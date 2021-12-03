@@ -539,13 +539,13 @@ export class Assignment3 extends Scene {
 
                 this.meteor_transform = Mat4.identity().times(Mat4.translation(this.meteor_loc,20+(-(t%5.5)*this.meteor_speed),0)).times(Mat4.scale(.5,.5,.5));
                 this.shapes.meteor.draw(context, program_state, this.meteor_transform, this.materials.meteor_mat);
-                if( ((this.meteor_transform[1][3] - this.center[1][3]) < 5 && (this.meteor_transform[1][3] - this.center[1][3]) > -5) && ((this.meteor_transform[0][3] - this.center[0][3]) < 5 && (this.meteor_transform[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.meteor_transform[1][3] - this.center[1][3]) < 4.5 && (this.meteor_transform[1][3] - this.center[1][3]) > -4.5) && ((this.meteor_transform[0][3] - this.center[0][3]) < 4.5 && (this.meteor_transform[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 }
 
                 this.meteor_transform_2 = Mat4.identity().times(Mat4.translation(this.meteor_loc_2,20+(-((t+2.25)%5.5)*this.meteor_speed_2),0)).times(Mat4.scale(.5,.5,.5));
                 this.shapes.meteor.draw(context, program_state, this.meteor_transform_2, this.materials.meteor_mat);
-                if( ((this.meteor_transform_2[1][3] - this.center[1][3]) < 5 && (this.meteor_transform_2[1][3] - this.center[1][3]) > -5) && ((this.meteor_transform_2[0][3] - this.center[0][3]) < 5 && (this.meteor_transform_2[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.meteor_transform_2[1][3] - this.center[1][3]) < 4.5 && (this.meteor_transform_2[1][3] - this.center[1][3]) > -4.5) && ((this.meteor_transform_2[0][3] - this.center[0][3]) < 4.5 && (this.meteor_transform_2[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 }
 
@@ -554,7 +554,7 @@ export class Assignment3 extends Scene {
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);
                 this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat); 
-                if( ((this.shooting_star_transform[1][3] - this.center[1][3]) < 5 && (this.shooting_star_transform[1][3] - this.center[1][3]) > -5) && ((this.shooting_star_transform[0][3] - this.center[0][3]) < 5 && (this.shooting_star_transform[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.shooting_star_transform[1][3] - this.center[1][3]) < 4.5 && (this.shooting_star_transform[1][3] - this.center[1][3]) > -4.5) && ((this.shooting_star_transform[0][3] - this.center[0][3]) < 4.5 && (this.shooting_star_transform[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 }                
 
@@ -563,20 +563,20 @@ export class Assignment3 extends Scene {
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform_2, this.materials.shooting_star_mat);
                 this.shooting_star_transform_2 = this.shooting_star_transform_2.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform_2, this.materials.shooting_star_mat);
-                if( ((this.shooting_star_transform_2[1][3] - this.center[1][3]) < 5 && (this.shooting_star_transform_2[1][3] - this.center[1][3]) > -5) && ((this.shooting_star_transform_2[0][3] - this.center[0][3]) < 5 && (this.shooting_star_transform_2[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.shooting_star_transform_2[1][3] - this.center[1][3]) < 4.5 && (this.shooting_star_transform_2[1][3] - this.center[1][3]) > -4.5) && ((this.shooting_star_transform_2[0][3] - this.center[0][3]) < 4.5 && (this.shooting_star_transform_2[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 } 
 
 
                 this.planet_transform = Mat4.identity().times(Mat4.translation(this.planet_loc,20+(-(t%5.5)*this.planet_speed), 0)).times(Mat4.scale(.75,.75,.75));
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_1_mat);
-                if( ((this.planet_transform[1][3] - this.center[1][3]) < 5 && (this.planet_transform[1][3] - this.center[1][3]) > -5) && ((this.planet_transform[0][3] - this.center[0][3]) < 5 && (this.planet_transform[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.planet_transform[1][3] - this.center[1][3]) < 4.5 && (this.planet_transform[1][3] - this.center[1][3]) > -4.5) && ((this.planet_transform[0][3] - this.center[0][3]) < 4.5 && (this.planet_transform[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 }
 
                 this.planet_transform_2 = Mat4.identity().times(Mat4.translation(this.planet_loc_2,20+(-((t+2.25)%5.5)*this.planet_speed_2), 0)).times(Mat4.scale(.75,.75,.75));
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform_2, this.materials.planet_1_mat);
-                if( ((this.planet_transform_2[1][3] - this.center[1][3]) < 5 && (this.planet_transform_2[1][3] - this.center[1][3]) > -5) && ((this.planet_transform_2[0][3] - this.center[0][3]) < 5 && (this.planet_transform_2[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.planet_transform_2[1][3] - this.center[1][3]) < 4.5 && (this.planet_transform_2[1][3] - this.center[1][3]) > -4.5) && ((this.planet_transform_2[0][3] - this.center[0][3]) < 4.5 && (this.planet_transform_2[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 }
 
@@ -584,7 +584,7 @@ export class Assignment3 extends Scene {
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
                 this.rings_transform = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
                 this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat); // TODO: make the torus st it has space bw itself & planet_3 --> made spacing heLLA
-                if( ((this.rings_transform[1][3] - this.center[1][3]) < 5 && (this.rings_transform[1][3] - this.center[1][3]) > -5) && ((this.rings_transform[0][3] - this.center[0][3]) < 5 && (this.rings_transform[0][3] - this.center[0][3]) > -5
+                if( ((this.rings_transform[1][3] - this.center[1][3]) < 4.5 && (this.rings_transform[1][3] - this.center[1][3]) > -4.5) && ((this.rings_transform[0][3] - this.center[0][3]) < 4.5 && (this.rings_transform[0][3] - this.center[0][3]) > -4.5
                 )) { // collision detection
                     this.collided = true;
                 }
@@ -593,7 +593,7 @@ export class Assignment3 extends Scene {
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
                 this.rings_transform_2 = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
                 this.shapes.rings.draw(context, program_state, this.rings_transform_2, this.materials.rings_mat);
-                if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 5 && (this.rings_transform_2[1][3] - this.center[1][3]) > -5) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 5 && (this.rings_transform_2[0][3] - this.center[0][3]) > -5)) { // collision detection
+                if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 4.5 && (this.rings_transform_2[1][3] - this.center[1][3]) > -4.5) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 4.5 && (this.rings_transform_2[0][3] - this.center[0][3]) > -4.5)) { // collision detection
                     this.collided = true;
                 }
             }
@@ -610,7 +610,7 @@ export class Assignment3 extends Scene {
 
             if (this.collided == true)
             {
-                var explosionCenter = this.center.times(Mat4.translation(0, 2, 2));
+                var explosionCenter = this.center.times(Mat4.translation(2, 3, 2));
 
                 var numberTris = 40;
                 for (let i = 0; i < numberTris; i++) {
