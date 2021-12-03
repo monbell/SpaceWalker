@@ -106,11 +106,13 @@ export class Assignment3 extends Scene {
             rings_mat: new Material(new Gouraud_Shader(),
                 {ambient: .5, diffusivity: .6, color: hex_color("#D4AF37")}),
             explosion_mat: new Material(new defs.Phong_Shader(),
-                {color: hex_color("#D4AF37")}),
+                {ambient: 1, diffusivity: 1, color: hex_color("#D4AF37")}),
             n_mat_Gouraud: new Material(new Gouraud_Shader(),
                 {ambient:1, diffusivity:1, color:hex_color("#333399")}),
             n_mat_Phong: new Material(new defs.Phong_Shader(),
                 {ambient:1, diffusivity:1, color:hex_color("#333399")}),
+            heart_mat: new Material(new defs.Phong_Shader(),
+                {ambient: 1, diffusivity: 1, color: hex_color("#FF0000")}),
         }
 
         this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
@@ -182,31 +184,18 @@ export class Assignment3 extends Scene {
                 
                 
             if(this.attached && this.attached() !== null) {
-                // var desired = this.center.times(Mat4.translation(-35,20,-20))
                 var desired = this.attached()
                 if (this.shiftCameraFast == true)
                 {
                     program_state.camera_inverse = desired
                 }
                 else{
-                // console.log(desired)
-                // if (this.attached == this.defaultCamera)
-                // {
-                //     desired = this.defaultCamera;
-                // }
                     program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.3))
                 }
                     
             }
             else {
                     program_state.set_camera(Mat4.translation(0, 0, -35));
-            }
-            if(this.attachedFast && this.attachedFast() !== null)
-            {
-                var desired = this.attachedFast()
-                program_state.camera_inverse = desired;
-                // program_state.camera_inverse = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
-
             }
 
             const t = program_state.animation_time/1000, dt = program_state.animation_delta_time/1000;
@@ -472,69 +461,6 @@ export class Assignment3 extends Scene {
         }
         else
         {
-
-            if (this.collided == true)
-            {
-
-                var explosionCenter = Mat4.identity().times(Mat4.translation(0, 5, 0));
-                // var explosionCenter = this.center;
-
-                var numberTris = 40;
-                for (let i = 0; i < numberTris; i++) {
-                    explosionCenter = explosionCenter.times(Mat4.rotation(i * Math.PI/numberTris, 0, 0, 1))
-                    this.material_transform = explosionCenter.times(Mat4.scale(0.5, 0.5, 0.5));
-                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color:  hex_color("#ffffff")}));
-                    this.material_transform = explosionCenter.times(Mat4.scale(1, 0.5, 0.5));
-                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#eded2d")}));
-                    this.material_transform = explosionCenter.times(Mat4.scale(1.5, 0.5, 0.5));
-                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#ffab24")}));
-                    this.material_transform = explosionCenter.times(Mat4.scale(2, 0.5, 0.5));
-                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#d6220b")}));
-                
-                }
-
-
-                function sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                }
-                    
-                sleep(3000).then(() => {
-                    this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));   
-                    this.collided = false;             
-                });
-                
-
-
-            }
-            else
-            {
-
-                this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
-                this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
-
-                this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
-                this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
-
-                this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
-                this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
-
-                this.circle_transform = this.center.times(Mat4.translation(-3,.5,1.2)).times(Mat4.scale(.15,.15,.15));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-1.5,1.75));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.75,1.75));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.25,.5));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,.75,-.25));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-1));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
-                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            }
-            // this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
-            // this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
             
             this.planet_n = Mat4.identity().times(Mat4.translation(23,-12,0)).times(Mat4.scale(3,3,3));
             //this.shapes.navarre.draw(context, program_state, this.planet_n, this.materials.n_mat_Phong);
@@ -613,13 +539,13 @@ export class Assignment3 extends Scene {
 
                 this.meteor_transform = Mat4.identity().times(Mat4.translation(this.meteor_loc,20+(-(t%5.5)*this.meteor_speed),0)).times(Mat4.scale(.5,.5,.5));
                 this.shapes.meteor.draw(context, program_state, this.meteor_transform, this.materials.meteor_mat);
-                if( ((this.meteor_transform[1][3] - this.center[1][3]) < 2 && (this.meteor_transform[1][3] - this.center[1][3]) > -2) && ((this.meteor_transform[0][3] - this.center[0][3]) < 2 && (this.meteor_transform[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.meteor_transform[1][3] - this.center[1][3]) < 4 && (this.meteor_transform[1][3] - this.center[1][3]) > -4) && ((this.meteor_transform[0][3] - this.center[0][3]) < 4 && (this.meteor_transform[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
                 }
 
                 this.meteor_transform_2 = Mat4.identity().times(Mat4.translation(this.meteor_loc_2,20+(-((t+2.25)%5.5)*this.meteor_speed_2),0)).times(Mat4.scale(.5,.5,.5));
                 this.shapes.meteor.draw(context, program_state, this.meteor_transform_2, this.materials.meteor_mat);
-                if( ((this.meteor_transform_2[1][3] - this.center[1][3]) < 2 && (this.meteor_transform_2[1][3] - this.center[1][3]) > -2) && ((this.meteor_transform_2[0][3] - this.center[0][3]) < 2 && (this.meteor_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.meteor_transform_2[1][3] - this.center[1][3]) < 4 && (this.meteor_transform_2[1][3] - this.center[1][3]) > -4) && ((this.meteor_transform_2[0][3] - this.center[0][3]) < 4 && (this.meteor_transform_2[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
                 }
 
@@ -628,7 +554,7 @@ export class Assignment3 extends Scene {
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat);
                 this.shooting_star_transform = this.shooting_star_transform.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform, this.materials.shooting_star_mat); 
-                if( ((this.shooting_star_transform[1][3] - this.center[1][3]) < 2 && (this.shooting_star_transform[1][3] - this.center[1][3]) > -2) && ((this.shooting_star_transform[0][3] - this.center[0][3]) < 2 && (this.shooting_star_transform[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.shooting_star_transform[1][3] - this.center[1][3]) < 4 && (this.shooting_star_transform[1][3] - this.center[1][3]) > -4) && ((this.shooting_star_transform[0][3] - this.center[0][3]) < 4 && (this.shooting_star_transform[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
                 }                
 
@@ -637,20 +563,20 @@ export class Assignment3 extends Scene {
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform_2, this.materials.shooting_star_mat);
                 this.shooting_star_transform_2 = this.shooting_star_transform_2.times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.translation(-.7,-.7,0));
                 this.shapes.triangle.draw(context, program_state, this.shooting_star_transform_2, this.materials.shooting_star_mat);
-                if( ((this.shooting_star_transform_2[1][3] - this.center[1][3]) < 2 && (this.shooting_star_transform_2[1][3] - this.center[1][3]) > -2) && ((this.shooting_star_transform_2[0][3] - this.center[0][3]) < 2 && (this.shooting_star_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.shooting_star_transform_2[1][3] - this.center[1][3]) < 4 && (this.shooting_star_transform_2[1][3] - this.center[1][3]) > -4) && ((this.shooting_star_transform_2[0][3] - this.center[0][3]) < 4 && (this.shooting_star_transform_2[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
                 } 
 
 
                 this.planet_transform = Mat4.identity().times(Mat4.translation(this.planet_loc,20+(-(t%5.5)*this.planet_speed), 0)).times(Mat4.scale(.75,.75,.75));
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_1_mat);
-                if( ((this.planet_transform[1][3] - this.center[1][3]) < 2 && (this.planet_transform[1][3] - this.center[1][3]) > -2) && ((this.planet_transform[0][3] - this.center[0][3]) < 2 && (this.planet_transform[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.planet_transform[1][3] - this.center[1][3]) < 4 && (this.planet_transform[1][3] - this.center[1][3]) > -4) && ((this.planet_transform[0][3] - this.center[0][3]) < 4 && (this.planet_transform[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
                 }
 
                 this.planet_transform_2 = Mat4.identity().times(Mat4.translation(this.planet_loc_2,20+(-((t+2.25)%5.5)*this.planet_speed_2), 0)).times(Mat4.scale(.75,.75,.75));
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform_2, this.materials.planet_1_mat);
-                if( ((this.planet_transform_2[1][3] - this.center[1][3]) < 2 && (this.planet_transform_2[1][3] - this.center[1][3]) > -2) && ((this.planet_transform_2[0][3] - this.center[0][3]) < 2 && (this.planet_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.planet_transform_2[1][3] - this.center[1][3]) < 4 && (this.planet_transform_2[1][3] - this.center[1][3]) > -4) && ((this.planet_transform_2[0][3] - this.center[0][3]) < 4 && (this.planet_transform_2[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
                 }
 
@@ -658,7 +584,7 @@ export class Assignment3 extends Scene {
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
                 this.rings_transform = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
                 this.shapes.rings.draw(context, program_state, this.rings_transform, this.materials.rings_mat); // TODO: make the torus st it has space bw itself & planet_3 --> made spacing heLLA
-                if( ((this.rings_transform[1][3] - this.center[1][3]) < 2 && (this.rings_transform[1][3] - this.center[1][3]) > -2) && ((this.rings_transform[0][3] - this.center[0][3]) < 2 && (this.rings_transform[0][3] - this.center[0][3]) > -2
+                if( ((this.rings_transform[1][3] - this.center[1][3]) < 4 && (this.rings_transform[1][3] - this.center[1][3]) > -4) && ((this.rings_transform[0][3] - this.center[0][3]) < 4 && (this.rings_transform[0][3] - this.center[0][3]) > -4
                 )) { // collision detection
                     this.collided = true;
                 }
@@ -667,17 +593,74 @@ export class Assignment3 extends Scene {
                 this.shapes.planet_1.draw(context, program_state, this.planet_transform, this.materials.planet_2_mat);
                 this.rings_transform_2 = this.planet_transform.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(2,2,.05));
                 this.shapes.rings.draw(context, program_state, this.rings_transform_2, this.materials.rings_mat);
-                if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 2 && (this.rings_transform_2[1][3] - this.center[1][3]) > -2) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 2 && (this.rings_transform_2[0][3] - this.center[0][3]) > -2)) { // collision detection
+                if( ((this.rings_transform_2[1][3] - this.center[1][3]) < 4 && (this.rings_transform_2[1][3] - this.center[1][3]) > -4) && ((this.rings_transform_2[0][3] - this.center[0][3]) < 4 && (this.rings_transform_2[0][3] - this.center[0][3]) > -4)) { // collision detection
                     this.collided = true;
+                }
+            }
+            else {
+                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));
+
+                this.heart_transform = Mat4.identity().times(Mat4.translation(19.9,-5,0));
+                this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
+                this.heart_transform = Mat4.identity().times(Mat4.translation(18.1,-5,0));
+                this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
+                this.heart_transform = Mat4.identity().times(Mat4.translation(19,-7.25,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
+                this.shapes.triangle.draw(context, program_state, this.heart_transform, this.materials.heart_mat)
+            }
+
+            if (this.collided == true)
+            {
+                var explosionCenter = this.center.times(Mat4.translation(0, 5, 2));
+
+                var numberTris = 40;
+                for (let i = 0; i < numberTris; i++) {
+                    explosionCenter = explosionCenter.times(Mat4.rotation(i * Math.PI/numberTris, 0, 0, 1))
+                    this.material_transform = explosionCenter.times(Mat4.scale(0.5, 0.5, 0.5));
+                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color:  hex_color("#eded2d")}));
+                    this.material_transform = explosionCenter.times(Mat4.scale(1, 0.5, 0.5));
+                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#eded2d")}));
+                    this.material_transform = explosionCenter.times(Mat4.scale(1.5, 0.5,0.5));
+                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#ffab24")}));
+                    this.material_transform = explosionCenter.times(Mat4.scale(2, 0.5, 0.5));
+                    this.shapes.expTri.draw(context, program_state, this.material_transform, this.materials.explosion_mat.override({color: hex_color("#d6220b")}));
+                
                 }
 
 
-                
-
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                    
+                sleep(50).then(() => {                      
+                    this.center = Mat4.identity().times(Mat4.translation(-25,-12,0));   
+                    this.collided = false;        
+                });
             }
-            else {
-                // this.attached = () => this.ufo_transform;
-                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));
+            else
+            {
+                this.ufo_transform = this.center.times(Mat4.scale(2,1.5,1.5)).times(Mat4.translation(0,.4,0));
+                this.shapes.ufo_top.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat.override({color: color(.5,.5,1,1)}));
+
+                this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
+                this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
+
+                this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
+                this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
+
+                this.circle_transform = this.center.times(Mat4.translation(-3,.5,1.2)).times(Mat4.scale(.15,.15,.15));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-1.5,1.75));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.75,1.75));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.25,.5));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_transform.times(Mat4.translation(7,.75,-.25));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-1));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
             }
         }
     }
