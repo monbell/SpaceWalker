@@ -85,7 +85,9 @@ export class Assignment3 extends Scene {
         this.meteor_loc_2 = this.positions[this.rand]; // random position; remove that position
         this.positions.splice(this.rand, 1);
         this.meteor_speed_2 = Math.random()*10 + 10; 
-
+                
+        this.ufo_loc = Math.random() * 20 - 10;
+        this.n_loc = Math.random() * 20 - 10;
 
         // *** Materials
         this.materials = {
@@ -125,7 +127,7 @@ export class Assignment3 extends Scene {
             {
                 setTimeout(() => {  
                     this.startScreen = false;
-                    this.center =  Mat4.identity().times(Mat4.translation(-25,-12,0));
+                    this.center =  Mat4.identity().times(Mat4.translation(-25,this.ufo_loc,0));
                     this.shiftCameraFast = true;
                     this.attached(Mat4.inverse(this.center).times(Mat4.translation(0,0,-3)));
                     this.shiftCameraFast = false;
@@ -462,7 +464,7 @@ export class Assignment3 extends Scene {
         else
         {
             
-            this.planet_n = Mat4.identity().times(Mat4.translation(23,-12,0)).times(Mat4.scale(3,3,3));
+            this.planet_n = Mat4.identity().times(Mat4.translation(23,this.n_loc,0)).times(Mat4.scale(3,3,3));
             //this.shapes.navarre.draw(context, program_state, this.planet_n, this.materials.n_mat_Phong);
             
             if(((t%10)%2).toString()[0] == '0'){
@@ -471,8 +473,9 @@ export class Assignment3 extends Scene {
                 this.shapes.navarre.draw(context, program_state, this.planet_n, this.materials.n_mat_Gouraud);
             }
             
-
-            if(this.center[0][3] == 15) {
+            this.diff = this.center[1][3] - this.n_loc;
+            //console.log(this.diff);
+            if(this.center[0][3] > 15 && Math.abs(this.diff) < 5) {
                 this.end = true;
             }
 
@@ -598,13 +601,15 @@ export class Assignment3 extends Scene {
                 }
             }
             else {
-                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));
-
-                this.heart_transform = Mat4.identity().times(Mat4.translation(19.9,-5,0));
+                this.y = (this.center[1][3] + this.n_loc ) / 2.0;
+                console.log(this.center[0][3])
+                this.attached = () => Mat4.identity().times(Mat4.translation(-20,-this.y,-25));
+                
+                this.heart_transform = Mat4.identity().times(Mat4.translation(19.9,this.n_loc+5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
-                this.heart_transform = Mat4.identity().times(Mat4.translation(18.1,-5,0));
+                this.heart_transform = Mat4.identity().times(Mat4.translation(18.1,this.n_loc+5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
-                this.heart_transform = Mat4.identity().times(Mat4.translation(19,-7.25,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
+                this.heart_transform = Mat4.identity().times(Mat4.translation(19,this.n_loc+2.75,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
                 this.shapes.triangle.draw(context, program_state, this.heart_transform, this.materials.heart_mat)
             }
 
