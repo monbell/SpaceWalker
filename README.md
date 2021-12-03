@@ -1,10 +1,10 @@
-CS 174A Team Project \n
+CS 174A Team Project <br>
 
-Team: SpaceWalkers \n
-Contributers: \n
-Monica Bellare \n
-Harsh Chobisa \n
-Neha Adhlakha \n
+Team: SpaceWalkers <br>
 
-TO RUN: \n
-Run `./host.command` in Terminal under this directory & navigate to localhost:8000 or the specified port
+Contributers: <br>
+Monica Bellare <br>
+Harsh Chobisa <br>
+Neha Adhlakha <br>
+
+To play this game, run `./host.command` in the command line under this directory & navigate to localhost:8000 or the specified port
