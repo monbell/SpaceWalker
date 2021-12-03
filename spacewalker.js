@@ -92,6 +92,7 @@ export class Assignment3 extends Scene {
         this.new_line();
         this.key_triggered_button("Left", ["a"], () => this.center = this.center.times(Mat4.translation(-1,0,0)));
         this.new_line();
+        this.key_triggered_button("Start", ["x"], () => this.startScreen = false);
         
         //this.key_triggered_button("Up", ["w"], () => this.center = this.center.times(Mat4.translation(0,1,0)));
         //this.new_line();
