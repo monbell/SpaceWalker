@@ -22,7 +22,7 @@ export class Assignment3 extends Scene {
         this.shapes = {
             ufo_top: new defs.Subdivision_Sphere(4),
             ufo_bottom: new defs.Torus(50, 50),
-            circle: new defs.Regular_2D_Polygon(1, 50),
+            circle: new defs.Subdivision_Sphere(4),
             triangle: new defs.Triangle(),
             meteor: new defs.Subdivision_Sphere(2),
             planet_1: new defs.Subdivision_Sphere(4),
@@ -445,19 +445,24 @@ export class Assignment3 extends Scene {
             this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
             this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
 
-            this.circle_transform = this.center.times(Mat4.translation(-3,.5,1.2)).times(Mat4.scale(.15,.15,.15));
+            this.circle_transform = this.ufo_transform.times(Mat4.translation(0,1,0)).times(Mat4.scale(.05,.15,.15));
+            this.circle_base = this.circle_transform
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            this.circle_transform = this.circle_transform.times(Mat4.translation(7,-1.5,1.75));
+            this.circle_transform = this.circle_base.times(Mat4.translation(-4,-.5,0));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.75,1.75));
+            this.circle_transform = this.circle_base.times(Mat4.translation(4,-.5,0));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.25,.5));
+            this.circle_transform = this.circle_base.times(Mat4.translation(-8,-1,0));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            this.circle_transform = this.circle_transform.times(Mat4.translation(7,.75,-.25));
+            this.circle_transform = this.circle_base.times(Mat4.translation(8,-1,0));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-1));
+            this.circle_transform = this.circle_base.times(Mat4.translation(-12,-1.5,0));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-            this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
+            this.circle_transform = this.circle_base.times(Mat4.translation(12,-1.5,0));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_base.times(Mat4.translation(-16,-2.75,0));
+            this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+            this.circle_transform = this.circle_base.times(Mat4.translation(16,-2.75,0));
             this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
 
         }
@@ -652,19 +657,24 @@ export class Assignment3 extends Scene {
                 this.ufo_transform = this.center.times(Mat4.rotation(Math.PI,0,1,1,0)).times(Mat4.scale(4,1.7,1));
                 this.shapes.ufo_bottom.draw(context, program_state, this.ufo_transform, this.materials.ufo_mat);
 
-                this.circle_transform = this.center.times(Mat4.translation(-3,.5,1.2)).times(Mat4.scale(.15,.15,.15));
+                this.circle_transform = this.ufo_transform.times(Mat4.translation(0,1,0)).times(Mat4.scale(.05,.15,.15));
+                this.circle_base = this.circle_transform
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-1.5,1.75));
+                this.circle_transform = this.circle_base.times(Mat4.translation(-4,-.5,0));
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.75,1.75));
+                this.circle_transform = this.circle_base.times(Mat4.translation(4,-.5,0));
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,-.25,.5));
+                this.circle_transform = this.circle_base.times(Mat4.translation(-8,-1,0));
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,.75,-.25));
+                this.circle_transform = this.circle_base.times(Mat4.translation(8,-1,0));
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-1));
+                this.circle_transform = this.circle_base.times(Mat4.translation(-12,-1.5,0));
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
-                this.circle_transform = this.circle_transform.times(Mat4.translation(7,1,-2.5));
+                this.circle_transform = this.circle_base.times(Mat4.translation(12,-1.5,0));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_base.times(Mat4.translation(-16,-2.75,0));
+                this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
+                this.circle_transform = this.circle_base.times(Mat4.translation(16,-2.75,0));
                 this.shapes.circle.draw(context, program_state, this.circle_transform, this.materials.meteor_mat);
             }
         }
