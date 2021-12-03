@@ -108,9 +108,9 @@ export class Assignment3 extends Scene {
             explosion_mat: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: 1, color: hex_color("#D4AF37")}),
             n_mat_Gouraud: new Material(new Gouraud_Shader(),
-                {ambient:1, diffusivity:1, color:hex_color("#333399")}),
+                {ambient:.5, diffusivity:1, color:hex_color("#05e632")}),
             n_mat_Phong: new Material(new defs.Phong_Shader(),
-                {ambient:1, diffusivity:1, color:hex_color("#333399")}),
+                {ambient:.5, diffusivity:1, color:hex_color("#05e632")}),
             heart_mat: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: 1, color: hex_color("#FF0000")}),
         }
@@ -598,13 +598,12 @@ export class Assignment3 extends Scene {
                 }
             }
             else {
-                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));
-
-                this.heart_transform = Mat4.identity().times(Mat4.translation(19.9,-5,0));
+                this.attached = () => this.center.times(Mat4.translation(-35,20,-20));                
+                this.heart_transform = heart_base_transform.times(Mat4.translation(19.9,-5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
-                this.heart_transform = Mat4.identity().times(Mat4.translation(18.1,-5,0));
+                this.heart_transform = heart_base_transform.times(Mat4.translation(18.1,-5,0));
                 this.shapes.circle.draw(context, program_state, this.heart_transform, this.materials.heart_mat);
-                this.heart_transform = Mat4.identity().times(Mat4.translation(19,-7.25,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
+                this.heart_transform = heart_base_transform.times(Mat4.translation(19,-7.25,0)).times(Mat4.rotation(Math.PI*.25,0,0,1,0)).times(Mat4.scale(2.55,2.55,0));
                 this.shapes.triangle.draw(context, program_state, this.heart_transform, this.materials.heart_mat)
             }
 
